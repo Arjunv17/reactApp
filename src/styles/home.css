@@ -1,0 +1,32 @@
+/* common color  */
+.bgBlk{
+    color: #000;
+}
+.bgWhite{
+    color: #fff;
+}
+/* end common color  */
+.navbar-brand img{
+    width: 70%;
+}
+.navbar-brand {
+    text-align: left;
+}
+.navColor{
+    background-color: #f8f9fa;
+}
+.bannerSlider img {
+    height: 700px;
+    object-fit: cover;
+}
+.heading{
+    color: #f96c33;
+}
+.queryForm{
+    padding: 50px 0;
+}
+.formSection {
+    padding: 50px;
+    background: #00000061;
+    border-radius: 20px;
+}
