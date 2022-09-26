@@ -1,0 +1,42 @@
+.bgImage {
+    background: #423b3b;
+    background-image: url('../../Assets/1.jpg');
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.bgImage::before {
+    content: '';
+    display: block;
+    background: #000046;
+    background: -webkit-linear-gradient(to right, #1CB5E0, #000046);
+    background: linear-gradient(to right, #1CB5E0, #000046);
+    height: 100vh;
+    width: 100%;
+    opacity: 0.8;
+    position: absolute;
+}
+.formTitle h2 {
+    color: #fff;
+}
+.formSection {
+    padding: 50px;
+    background: #00000061;
+    border-radius: 20px;
+}
+.formSection input {
+    margin: 30px 0;
+}
+
+.errorMsg {
+    color: red;
+    text-align: left;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+}
+.inputWrap{
+    position: relative;
+
+}

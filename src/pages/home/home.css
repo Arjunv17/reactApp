@@ -30,3 +30,10 @@
     background: #00000061;
     border-radius: 20px;
 }
+form button {
+    border: none;
+    padding: 10px 35px;
+    border-radius: 5px;
+    color: #000;
+    font-weight: 500;
+}

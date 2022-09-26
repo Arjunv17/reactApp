@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
-import style from '../../styles/home.css'
+import style from '../Home/home.css'
 import Images from '../../Assets'
 import axios from 'axios'
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+
+
+
 const Index =  () => {
 
     const [email, setEmail] = useState('');
@@ -12,7 +16,7 @@ const Index =  () => {
         setEmail(event.target.email.value)
         setPassword(event.target.password.value)
         try {
-            await axios.post('https://taxiooker123.herokuapp.com/loginuser', {
+            await axios.post('https://my-ecommerce-apis.herokuapp.com/api/user/login', {
                 email,
                 password
             })
@@ -29,9 +33,9 @@ const Index =  () => {
     return (
         <>
             <section className='banner'>
-                <div className="container-fluid p-0">
+                <div className="container-fluid">
                     <div className="row">
-                        <div className="col-lg-12">
+                        <div className="col-lg-12 p-0">
                             <div className="bannerSlider">
                                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                     <div class="carousel-inner">
@@ -57,47 +61,8 @@ const Index =  () => {
                     </div>
                 </div>
             </section>
-
-            <section className='queryForm'>
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="heading">
-                                <h1>Get a Free <sapn className="bgBlk">Quote</sapn>!!!</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-lg-2">
-
-                        </div>
-                        <div className="col-lg-8">
-                            <div className="formSection">
-                                <form className='formbody' onSubmit={handleSubmit}>
-                                    <div class="form-group row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label bgWhite">User Email</label>
-                                        <div class="col-sm-10">
-                                            <input type="email" onChange={e => setEmail(e.target.value)} class="form-control " name="email" id="email" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="inputPassword" class="col-sm-2 col-form-label bgWhite"> Password</label>
-                                        <div class="col-sm-10">
-                                            <input type="password" onChange={e => setPassword(e.target.value)} class="form-control" name="password" id="password" />
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-success mb-2" >Submit</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div className="col-lg-2">
-
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
+            
+        {/* <Outlet/> */}
         </>
     )
 }
