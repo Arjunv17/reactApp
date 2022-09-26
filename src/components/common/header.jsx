@@ -7,10 +7,12 @@ const Navbar = () => {
     const [isLog, setIsLog] = useState("");
     const isLogged = localStorage.getItem('token')
 
+
     useEffect(() => {
         setIsLog(isLogged);
     });
 
+    
     return (
         <>
             <section className={style.navMain}>
