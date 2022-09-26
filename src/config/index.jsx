@@ -1,10 +1,9 @@
 import axios from 'axios';
 
 export const baseUrl = process.env.REACT_APP_APIENDPOINT;
-const data = localStorage.getItem('token');
-console.log(data,">>>>>>>>>>")
+const token = localStorage.getItem('token');
 const axiosInstance = axios.create({
-    token:data,
+    token: token,
     baseURL: baseUrl,
     headers: {
         'Content-Type': 'application/json',

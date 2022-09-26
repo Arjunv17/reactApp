@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import style from '../../styles/style.css'
 import Images from '../../Assets'
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+    const [isLog, setIsLog] = useState("");
+    const isLogged = localStorage.getItem('token')
+
+    useEffect(() => {
+        setIsLog(isLogged);
+    });
+
     return (
         <>
             <section className={style.navMain}>
@@ -17,18 +24,26 @@ const Navbar = () => {
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
-
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav ml-auto">
-                                        <li className={`nav-item active ${style.headerLink}`}>
-                                            <Link to="/" >Home</Link>
-                                        </li>
-                                        <li class={`nav-item ${style.headerLink}`}>
-                                            <Link to="/register" >Register</Link>
-                                        </li>
-                                        <li class={`nav-item ${style.headerLink}`}>
-                                            <Link to="/login" >Login</Link>
-                                        </li>
+                                        {
+                                            isLogged ?
+                                                <>
+                                                    <li className={`nav-item active ${style.headerLink}`}>
+                                                        <Link to="/" >Home</Link>
+                                                    </li>
+                                                    <li class={`nav-item ${style.headerLink}`}>
+                                                        <Link to="/register" >Register</Link>
+                                                    </li>
+                                                </> : <>
+                                                    <li class={`nav-item ${style.headerLink}`}>
+                                                        <Link to="/register" >Register</Link>
+                                                    </li>
+                                                    <li class={`nav-item ${style.headerLink}`}>
+                                                        <Link to="/login" >Login</Link>
+                                                    </li>
+                                                </>
+                                        }
                                     </ul>
                                 </div>
                             </nav>
