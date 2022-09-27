@@ -15,7 +15,8 @@ const Navbar = () => {
 
     function logout() {
         localStorage.removeItem('token')
-        navigate('/login')
+        // navigate('/login')
+        window.location('/login')
     }
 
     return (
@@ -44,6 +45,9 @@ const Navbar = () => {
                                                     </li>
                                                     <li class={`nav-item ${style.headerLink}`}>
                                                         <Link to="#" onClick={logout} >Logout</Link>
+                                                    </li>
+                                                    <li class={`nav-item ${style.headerLink}`}>
+                                                        <Link to="/cart"  ><i class="fa-solid fa-cart-shopping"></i></Link>
                                                     </li>
                                                 </> :
                                                 <>

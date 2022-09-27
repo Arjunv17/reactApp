@@ -5,10 +5,12 @@ import loginStyle from "./login.module.css"
 import axios from 'axios';
 import { Logins } from '../../services'
 import Swal from 'sweetalert2';
-import { Link ,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toastConfig, fireToast } from '../../helper'
+
 
 const Login = () => {
-    const navigate =  useNavigate()
+    const navigate = useNavigate()
 
     return (
         <>
@@ -41,19 +43,15 @@ const Login = () => {
                                             password: values.password
                                         })
                                             .then(function (response) {
-                                                Swal.fire({
-                                                    position: 'top-end',
-                                                    icon: 'success',
-                                                    title: 'Your work has been saved',
-                                                    showConfirmButton: false,
-                                                    timer: 1500
-                                                })
-                                                localStorage.setItem('token',response.data.token)
+                                                fireToast('success', response.data.Result)
+                                                localStorage.setItem('token', response.data.token)
                                                 navigate('/')
                                                 console.log(response.data);
                                             })
                                             .catch(function (error) {
-                                                console.log(error);
+                                                fireToast('error', error.response.data.Error)
+                                                navigate('/login')
+                                                console.log(error)
                                             });
 
                                     }}

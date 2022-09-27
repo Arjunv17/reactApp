@@ -5,8 +5,14 @@ import registerStyle from "./register.module.css"
 import axios from 'axios';
 import { Registers } from '../../services';
 import Swal from 'sweetalert2';
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { toastConfig, fireToast } from '../../helper'
+
+
 
 const Register = () => {
+    const navigate = useNavigate()
+
     return (
         <>
             <section className={registerStyle.bgImage}>
@@ -47,15 +53,11 @@ const Register = () => {
                                             gender: values.gender,
                                         })
                                             .then(function (response) {
-                                                Swal.fire({
-                                                    position: 'top-end',
-                                                    icon: 'err',
-                                                    title: response.data.Result,
-                                                    timer: 1500
-                                                })
+                                                fireToast('success', response.data.Result)
+                                                navigate('/login')
                                             })
                                             .catch(function (error) {
-                                                console.log(error);
+                                                fireToast('error', error.response.data.Error)
                                             });
                                     }}
                                 >
