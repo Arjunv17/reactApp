@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import style from '../../styles/style.css'
 import Images from '../../Assets'
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const navigate =  useNavigate()
     const [isLog, setIsLog] = useState("");
     const isLogged = localStorage.getItem('token')
 
@@ -12,7 +13,11 @@ const Navbar = () => {
         setIsLog(isLogged);
     });
 
-    
+    function logout() {
+        localStorage.removeItem('token')
+        navigate('/login')
+    }
+
     return (
         <>
             <section className={style.navMain}>
@@ -37,7 +42,11 @@ const Navbar = () => {
                                                     <li class={`nav-item ${style.headerLink}`}>
                                                         <Link to="/register" >Register</Link>
                                                     </li>
-                                                </> : <>
+                                                    <li class={`nav-item ${style.headerLink}`}>
+                                                        <Link to="#" onClick={logout} >Logout</Link>
+                                                    </li>
+                                                </> :
+                                                <>
                                                     <li class={`nav-item ${style.headerLink}`}>
                                                         <Link to="/register" >Register</Link>
                                                     </li>

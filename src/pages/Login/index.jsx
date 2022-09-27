@@ -5,7 +5,11 @@ import loginStyle from "./login.module.css"
 import axios from 'axios';
 import { Logins } from '../../services'
 import Swal from 'sweetalert2';
+import { Link ,useNavigate } from "react-router-dom";
+
 const Login = () => {
+    const navigate =  useNavigate()
+
     return (
         <>
             <section className={loginStyle.bgImage}>
@@ -45,6 +49,7 @@ const Login = () => {
                                                     timer: 1500
                                                 })
                                                 localStorage.setItem('token',response.data.token)
+                                                navigate('/')
                                                 console.log(response.data);
                                             })
                                             .catch(function (error) {
