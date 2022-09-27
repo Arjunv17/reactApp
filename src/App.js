@@ -23,8 +23,8 @@ function App() {
               <Home />
             }
           />
-        </Route>
         <Route path="/cart" element={<Cart />} />
+        </Route>
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />
