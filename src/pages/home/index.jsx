@@ -64,30 +64,34 @@ const Index = () => {
             <section className='pt-5'>
                 <div className="container">
                     <div className="row">
+                        <div className="col-lg-12">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <button class="nav-link active" id="nav-home-tab" data-toggle="tab" onClick={getList} data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Boys</button>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
 
+                    <div className="row">
                         {
                             product.map((item) => (
                                 <div className="col-lg-4" key={item._id}>
-
-                                    <nav>
-                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                            <button class="nav-link active" id="nav-home-tab" data-toggle="tab" onClick={getList} data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Boys</button>
-                                        </div>
-                                    </nav>
                                     <div class="tab-content" id="nav-tabContent">
                                         <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                                             <div class="card">
                                                 <img src="https://st3.depositphotos.com/1441511/18503/i/600/depositphotos_185032830-stock-photo-programming-man-working-on-computer.jpg " class="card-img-top" alt="..." />
                                                 <div class="card-body">
                                                     <h5 class="card-title">{item.title}</h5>
-                                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                                    <p class="card-text">{item.excerptText}</p>
+                                                    <div className='btnWrap'>
+                                                        <span><a href="#" class="btn btn-primary">Details</a></span>
+                                                        <span><a href="#" class="btn btn-danger">${item.productPrice}</a></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                             ))
                         }

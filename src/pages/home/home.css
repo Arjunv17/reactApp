@@ -37,3 +37,7 @@ form button {
     color: #000;
     font-weight: 500;
 }
+.btnWrap{
+    display: flex;
+    justify-content: space-between;
+}

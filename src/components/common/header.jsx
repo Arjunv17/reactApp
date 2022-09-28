@@ -50,6 +50,7 @@ const Navbar = () => {
                                                         <Link to="/cart"  ><i class="fa-solid fa-cart-shopping"></i></Link>
                                                     </li>
                                                 </> :
+                                                
                                                 <>
                                                     <li class={`nav-item ${style.headerLink}`}>
                                                         <Link to="/register" >Register</Link>
