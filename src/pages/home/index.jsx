@@ -3,12 +3,18 @@ import style from '../Home/home.css'
 import Images from '../../Assets'
 import axios from 'axios';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { getProductList } from '../../services';
-
+import { getProductList, addToCart } from '../../services';
+import { Formik, Field } from 'formik';
+import * as Yup from "yup";
+import { Link, useNavigate } from "react-router-dom";
+import { toastConfig, fireToast } from '../../helper'
 
 const Index = () => {
 
     const [product, setProduct] = useState([]);
+    const [addCart, setAddCart] = useState([]);
+    const navigate = useNavigate()
+
     function getList() {
         axios.get(getProductList)
             .then(function (response) {
@@ -20,10 +26,8 @@ const Index = () => {
             });
     }
 
-
     useEffect(() => {
         getList()
-
     }, [])
 
     return (
@@ -85,7 +89,65 @@ const Index = () => {
                                                     <h5 class="card-title">{item.title}</h5>
                                                     <p class="card-text">{item.excerptText}</p>
                                                     <div className='btnWrap'>
-                                                        <span><a href="#" class="btn btn-primary">Details</a></span>
+                                                        {/* <span><a href="#" class="btn btn-primary" onClick={addToCart}>Cart</a></span> */}
+                                                        <span>  <Formik
+                                                            initialValues={{
+                                                                quantity: ""
+                                                            }}
+                                                            validationSchema={
+                                                                Yup.object({
+                                                                    quantity: Yup.number("Select any quantity").required("Required"),
+                                                                })
+                                                            }
+                                                            onSubmit={(values, { setSubmitting }) => {
+                                                                axios.post(addToCart, {
+                                                                    quantity: values.number,
+                                                                    // productId: values.password
+                                                                })
+                                                                    .then(function (response) {
+                                                                        fireToast('success', response.data.Result)
+                                                                        localStorage.setItem('token', response.data.token)
+                                                                        navigate('/cart')
+                                                                        console.log(response.data);
+                                                                    })
+                                                                    .catch(function (error) {
+                                                                        fireToast('error', error.response.data.Error)
+                                                                        navigate('/')
+                                                                        console.log(error)
+                                                                    });
+
+                                                            }}
+                                                        >
+                                                            {({
+                                                                values,
+                                                                errors,
+                                                                touched,
+                                                                handleChange,
+                                                                handleBlur,
+                                                                handleSubmit,
+                                                                isSubmitting,
+                                                                /* and other goodies */
+                                                            }) => (
+                                                                <form onSubmit={handleSubmit}>
+                                                                    <div className='inputWrap'>
+                                                                        <input
+                                                                            className="form-control"
+                                                                            type="number"
+                                                                            name="quantity"
+                                                                            onChange={handleChange}
+                                                                            onBlur={handleBlur}
+                                                                            values={values.quantity}
+                                                                        />
+                                                                        <div className='errorMsg'>
+                                                                            {errors.quantity && touched.quantity && errors.quantity}
+                                                                        </div>
+                                                                    </div>
+                                                                    <button type="submit" disabled={isSubmitting}>
+                                                                        Cart
+                                                                    </button>
+                                                                </form>
+                                                            )}
+                                                        </Formik></span>
                                                         <span><a href="#" class="btn btn-danger">${item.productPrice}</a></span>
                                                     </div>
                                                 </div>

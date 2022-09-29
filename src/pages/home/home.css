@@ -41,3 +41,15 @@ form button {
     display: flex;
     justify-content: space-between;
 }
+
+.errorMsg {
+    color: red;
+    text-align: left;
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+}
+.inputWrap{
+    position: relative;
+
+}
