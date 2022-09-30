@@ -3,10 +3,30 @@ import style from '../Home/home.css'
 import Images from '../../Assets'
 import axios from 'axios';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { getProductList } from '../../services';
+import { getCart } from '../../services';
+import { Link, useNavigate } from "react-router-dom";
+import { toastConfig, fireToast } from '../../helper'
+import  axiosInstance  from '../../config'
 
 const Cart = () => {
-    // const navigate = useNavigate()
+
+    const [showCart, setShowCart] = useState([]);
+    const navigate = useNavigate()
+    function getCartItems() {
+        axiosInstance.get(getCart)
+            .then(function (response) {
+                setShowCart(response.data)
+                fireToast('success', response.data.Result)
+            })
+            .catch(function (error) {
+                fireToast('error', 'This Item is not add in cart')
+                console.log(error);
+            });
+    }
+
+    useEffect(() => {
+        getCartItems()
+    }, [])
 
     return (
         <>
@@ -19,30 +39,27 @@ const Cart = () => {
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
-                                            <th scope="col">First</th>
-                                            <th scope="col">Last</th>
-                                            <th scope="col">Handle</th>
+                                            <th scope="col">UserName</th>
+                                            <th scope="col">ProductName</th>
+                                            <th scope="col">ProductPrice</th>
+                                            <th scope="col">FinalPrice</th>
+                                            <th scope="col">Quantity</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>Larry</td>
-                                            <td>the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
+                                        {
+                                            showCart.map((item) => (
+                                                <tr key={item._id}>
+                                                    <th scope="row">1</th>
+                                                    <td>{item.userName}</td>
+                                                    <td>{item.productName}</td>
+                                                    <td>{item.productPrice}</td>
+                                                    <td>{item.finalPrice}</td>
+                                                    <td>{item.productQuantity}</td>
+                                                </tr>
+                                            ))
+                                        }
                                     </tbody>
                                 </table>
                             </div>

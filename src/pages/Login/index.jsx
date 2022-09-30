@@ -53,7 +53,6 @@ const Login = () => {
                                                 navigate('/login')
                                                 console.log(error)
                                             });
-
                                     }}
                                 >
                                     {({

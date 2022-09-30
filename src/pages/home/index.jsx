@@ -8,15 +8,16 @@ import { Formik, Field } from 'formik';
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from '../../helper'
+import  axiosInstance  from '../../config'
+
 
 const Index = () => {
 
     const [product, setProduct] = useState([]);
-    const [addCart, setAddCart] = useState([]);
     const navigate = useNavigate()
 
     function getList() {
-        axios.get(getProductList)
+        axiosInstance.get(getProductList)
             .then(function (response) {
                 setProduct(response.data.Result)
                 console.log(response);
@@ -35,7 +36,6 @@ const Index = () => {
             <section className='banner'>
                 <div className="container-fluid">
                     <div className="row">
-
                         <div className="col-lg-12 p-0">
                             <div className="bannerSlider">
                                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -46,7 +46,6 @@ const Index = () => {
                                         <div class="carousel-item">
                                             <img src={Images.banner2} class="d-block w-100" alt="..." />
                                         </div>
-
                                     </div>
                                     <button class="carousel-control-prev" type="button" data-target="#carouselExampleControls" data-slide="prev">
                                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -59,7 +58,6 @@ const Index = () => {
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
@@ -67,7 +65,7 @@ const Index = () => {
 
             <section className='pt-5'>
                 <div className="container">
-                    <div className="row">
+                    {/* <div className="row">
                         <div className="col-lg-12">
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -75,7 +73,7 @@ const Index = () => {
                                 </div>
                             </nav>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="row">
                         {
@@ -89,20 +87,19 @@ const Index = () => {
                                                     <h5 class="card-title">{item.title}</h5>
                                                     <p class="card-text">{item.excerptText}</p>
                                                     <div className='btnWrap'>
-                                                        {/* <span><a href="#" class="btn btn-primary" onClick={addToCart}>Cart</a></span> */}
                                                         <span>  <Formik
                                                             initialValues={{
-                                                                quantity: ""
+                                                                quantity: ''
                                                             }}
                                                             validationSchema={
                                                                 Yup.object({
                                                                     quantity: Yup.number("Select any quantity").required("Required"),
                                                                 })
                                                             }
-                                                            onSubmit={(values, { setSubmitting }) => {
-                                                                axios.post(addToCart, {
-                                                                    quantity: values.number,
-                                                                    // productId: values.password
+                                                            onSubmit={ (values, { setSubmitting }) => {
+                                                                axiosInstance.post(addToCart, {
+                                                                    quantity: values.quantity,
+                                                                    productId: item._id
                                                                 })
                                                                     .then(function (response) {
                                                                         fireToast('success', response.data.Result)
@@ -115,7 +112,6 @@ const Index = () => {
                                                                         navigate('/')
                                                                         console.log(error)
                                                                     });
-
                                                             }}
                                                         >
                                                             {({
@@ -142,7 +138,7 @@ const Index = () => {
                                                                             {errors.quantity && touched.quantity && errors.quantity}
                                                                         </div>
                                                                     </div>
-                                                                    <button type="submit" disabled={isSubmitting}>
+                                                                    <button type="submit" >
                                                                         Cart
                                                                     </button>
                                                                 </form>
@@ -157,7 +153,6 @@ const Index = () => {
                                 </div>
                             ))
                         }
-
                     </div>
                 </div>
             </section>
