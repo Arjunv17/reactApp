@@ -20,10 +20,10 @@ const Index = () => {
         axiosInstance.get(getProductList)
             .then(function (response) {
                 setProduct(response.data.Result)
-                console.log(response);
+                fireToast('success' , response.data.Result )
             })
             .catch(function (error) {
-                console.log(error);
+                fireToast('error' , 'Data Not Found' )
             });
     }
 
@@ -105,12 +105,10 @@ const Index = () => {
                                                                         fireToast('success', response.data.Result)
                                                                         localStorage.setItem('token', response.data.token)
                                                                         navigate('/cart')
-                                                                        console.log(response.data);
                                                                     })
                                                                     .catch(function (error) {
                                                                         fireToast('error', error.response.data.Error)
                                                                         navigate('/')
-                                                                        console.log(error)
                                                                     });
                                                             }}
                                                         >

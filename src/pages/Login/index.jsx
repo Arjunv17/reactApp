@@ -46,12 +46,10 @@ const Login = () => {
                                                 fireToast('success', response.data.Result)
                                                 localStorage.setItem('token', response.data.token)
                                                 navigate('/')
-                                                console.log(response.data);
                                             })
                                             .catch(function (error) {
                                                 fireToast('error', error.response.data.Error)
                                                 navigate('/login')
-                                                console.log(error)
                                             });
                                     }}
                                 >

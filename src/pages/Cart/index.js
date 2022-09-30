@@ -20,7 +20,6 @@ const Cart = () => {
             })
             .catch(function (error) {
                 fireToast('error', 'This Item is not add in cart')
-                console.log(error);
             });
     }
 

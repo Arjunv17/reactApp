@@ -8,28 +8,7 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
 const PageNotFound =  () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    async function handleSubmit(event) {
-        event.preventDefault()
-        setEmail(event.target.email.value)
-        setPassword(event.target.password.value)
-        try {
-            await axios.post('https://my-ecommerce-apis.herokuapp.com/api/user/login', {
-                email,
-                password
-            })
-                .then(function (response) {
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        } catch (err) {
-            console.log(err);
-        }
-    }
+   
     return (
         <>
             <section className='pageNotFound mt-5'>
