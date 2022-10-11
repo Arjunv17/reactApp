@@ -9,6 +9,7 @@ import PageNotFound from './pages/404'
 import React from 'react'
 import AuthRoutes from './authRoutes'
 import Cart from './pages/Cart'
+import Checkout from './pages/Checkout'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             }
           />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         </Route>
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />

@@ -8,7 +8,7 @@ import { Formik, Field } from 'formik';
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from '../../helper'
-import  axiosInstance  from '../../config'
+import  axiosfun  from '../../config'
 
 
 const Index = () => {
@@ -17,10 +17,10 @@ const Index = () => {
     const navigate = useNavigate()
 
     function getList() {
-        axiosInstance.get(getProductList)
+        axiosfun().get(getProductList)
             .then(function (response) {
                 setProduct(response.data.Result)
-                fireToast('success' , response.data.Result )
+                fireToast('success' , response.statusText )
             })
             .catch(function (error) {
                 fireToast('error' , 'Data Not Found' )
@@ -97,13 +97,12 @@ const Index = () => {
                                                                 })
                                                             }
                                                             onSubmit={ (values, { setSubmitting }) => {
-                                                                axiosInstance.post(addToCart, {
+                                                                axiosfun().post(addToCart, {
                                                                     quantity: values.quantity,
                                                                     productId: item._id
                                                                 })
                                                                     .then(function (response) {
                                                                         fireToast('success', response.data.Result)
-                                                                        localStorage.setItem('token', response.data.token)
                                                                         navigate('/cart')
                                                                     })
                                                                     .catch(function (error) {

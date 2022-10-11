@@ -49,6 +49,9 @@ const Navbar = () => {
                                                     <li class={`nav-item ${style.headerLink}`}>
                                                         <Link to="/cart"  ><i class="fa-solid fa-cart-shopping"></i></Link>
                                                     </li>
+                                                    <li class={`nav-item ${style.headerLink}`}>
+                                                        <Link to="/checkout" >Checkout</Link>
+                                                    </li>
                                                 </> :
                                                 
                                                 <>

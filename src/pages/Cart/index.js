@@ -3,17 +3,18 @@ import style from '../Home/home.css'
 import Images from '../../Assets'
 import axios from 'axios';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { getCart } from '../../services';
+import { getCart, deleteCart } from '../../services';
 import { Link, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from '../../helper'
-import  axiosInstance  from '../../config'
+import axiosfun from '../../config'
 
 const Cart = () => {
 
     const [showCart, setShowCart] = useState([]);
     const navigate = useNavigate()
+
     function getCartItems() {
-        axiosInstance.get(getCart)
+        axiosfun().get(getCart)
             .then(function (response) {
                 setShowCart(response.data)
                 fireToast('success', response.data.Result)
@@ -22,6 +23,20 @@ const Cart = () => {
                 fireToast('error', 'This Item is not add in cart')
             });
     }
+
+    function deleteCartItems(id) {
+        axiosfun().delete(deleteCart, {
+            data: { id: id }
+        })
+            .then(function (response) {
+                fireToast('success', response.data.Result)
+                getCartItems()
+            })
+            .catch(function (error) {
+                fireToast('error', 'This Item is not add in cart')
+            });
+    }
+
 
     useEffect(() => {
         getCartItems()
@@ -43,19 +58,24 @@ const Cart = () => {
                                             <th scope="col">ProductPrice</th>
                                             <th scope="col">FinalPrice</th>
                                             <th scope="col">Quantity</th>
+                                            <th scope="col">Edit</th>
+                                            <th scope="col">Delete</th>
+
                                         </tr>
                                     </thead>
 
                                     <tbody>
                                         {
-                                            showCart.map((item) => (
-                                                <tr key={item._id}>
-                                                    <th scope="row">1</th>
+                                            showCart.map((item, index) => (
+                                                <tr key={index}>
+                                                    <th scope="row">{index + 1}</th>
                                                     <td>{item.userName}</td>
                                                     <td>{item.productName}</td>
                                                     <td>{item.productPrice}</td>
                                                     <td>{item.finalPrice}</td>
                                                     <td>{item.productQuantity}</td>
+                                                    <td><i class="fa-solid fa-pen-to-square"  ></i></td>
+                                                    <td onClick={() => deleteCartItems(item._id)}><i class="fa-solid fa-trash"></i></td>
                                                 </tr>
                                             ))
                                         }

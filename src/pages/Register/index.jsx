@@ -7,7 +7,7 @@ import { Registers } from '../../services';
 import Swal from 'sweetalert2';
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from '../../helper'
-
+import axiosfun from '../../config'
 
 
 const Register = () => {

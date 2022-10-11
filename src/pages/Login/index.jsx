@@ -7,7 +7,7 @@ import { Logins } from '../../services'
 import Swal from 'sweetalert2';
 import { Link, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from '../../helper'
-
+import axiosfun from '../../config';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -38,7 +38,7 @@ const Login = () => {
                                         })
                                     }
                                     onSubmit={(values, { setSubmitting }) => {
-                                        axios.post(Logins, {
+                                        axiosfun().post(Logins, {
                                             email: values.email,
                                             password: values.password
                                         })
