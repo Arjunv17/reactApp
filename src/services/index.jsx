@@ -7,6 +7,7 @@ const addToCart = baseUrl + ('api/cart/addtocart');
 const getCart = baseUrl + ('api/cart/getcart');
 const deleteCart = baseUrl + ('api/cart/removeCartItem');
 const CheckoutPay = baseUrl + ('api/order/paywithstrip');
+const globalSearch = baseUrl + ('api/product/productSearch');
 
 
-export { Registers, Logins, getProductList, addToCart, getCart, deleteCart ,CheckoutPay }
+export { Registers, Logins, getProductList, addToCart, getCart, deleteCart ,CheckoutPay, globalSearch}

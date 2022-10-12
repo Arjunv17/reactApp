@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from 'react'
-import style from '../Home/home.css'
+import loginStyle from '../Login/login.module.css'
 import Images from '../../Assets'
 import axios from 'axios';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { getProductList, addToCart } from '../../services';
+import { getProductList, addToCart, globalSearch } from '../../services';
 import { Formik, Field } from 'formik';
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from '../../helper'
-import  axiosfun  from '../../config'
+import axiosfun from '../../config'
 
 
 const Index = () => {
 
     const [product, setProduct] = useState([]);
+    const [searchProduct, setSerachProduct] = useState([]);
+
+
     const navigate = useNavigate()
 
     function getList() {
         axiosfun().get(getProductList)
             .then(function (response) {
                 setProduct(response.data.Result)
-                fireToast('success' , response.statusText )
+                fireToast('success', response.statusText)
             })
             .catch(function (error) {
-                fireToast('error' , 'Data Not Found' )
+                fireToast('error', 'Data Not Found')
             });
     }
+
 
     useEffect(() => {
         getList()
@@ -65,92 +69,224 @@ const Index = () => {
 
             <section className='pt-5'>
                 <div className="container">
-                    {/* <div className="row">
-                        <div className="col-lg-12">
-                            <nav>
-                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                                    <button class="nav-link active" id="nav-home-tab" data-toggle="tab" onClick={getList} data-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Boys</button>
-                                </div>
-                            </nav>
-                        </div>
-                    </div> */}
-
                     <div className="row">
-                        {
-                            product.map((item) => (
-                                <div className="col-lg-4" key={item._id}>
-                                    <div class="tab-content" id="nav-tabContent">
-                                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                                            <div class="card">
-                                                <img src="https://st3.depositphotos.com/1441511/18503/i/600/depositphotos_185032830-stock-photo-programming-man-working-on-computer.jpg " class="card-img-top" alt="..." />
-                                                <div class="card-body">
-                                                    <h5 class="card-title">{item.title}</h5>
-                                                    <p class="card-text">{item.excerptText}</p>
-                                                    <div className='btnWrap'>
-                                                        <span>  <Formik
-                                                            initialValues={{
-                                                                quantity: ''
-                                                            }}
-                                                            validationSchema={
-                                                                Yup.object({
-                                                                    quantity: Yup.number("Select any quantity").required("Required"),
-                                                                })
-                                                            }
-                                                            onSubmit={ (values, { setSubmitting }) => {
-                                                                axiosfun().post(addToCart, {
-                                                                    quantity: values.quantity,
-                                                                    productId: item._id
-                                                                })
-                                                                    .then(function (response) {
-                                                                        fireToast('success', response.data.Result)
-                                                                        navigate('/cart')
+                        <div className="col-lg-12">
+                            <Formik
+                                initialValues={{
+                                    title: "",
+                                }}
+                                validationSchema={
+                                    Yup.object({
+                                        title: Yup.string(),
+                                    })
+                                }
+                                onSubmit={(values, { setSubmitting }) => {
+                                    axiosfun().post(globalSearch, {
+                                        title: values.title,
+                                    })
+                                        .then(function (response) {
+                                            setSerachProduct(response.data.Result)
+                                            fireToast('success', response.data.Response)
+                                            navigate('/')
+                                        })
+                                        .catch(function (error) {
+                                            fireToast('error', error.response.data.Error)
+                                            navigate('/login')
+                                        });
+                                }}
+                            >
+                                {({
+                                    values,
+                                    errors,
+                                    touched,
+                                    handleChange,
+                                    handleBlur,
+                                    handleSubmit,
+                                    isSubmitting,
+                                    /* and other goodies */
+                                }) => (
+                                    <form onSubmit={handleSubmit}>
+                                        <div className={loginStyle.inputWrap}>
+                                            <input
+                                                className="form-control"
+                                                type="text"
+                                                name="title"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                values={values.title}
+                                            />
+                                            <div className={loginStyle.errorMsg}>
+                                                {errors.title && touched.title && errors.title}
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" >
+                                            Submit
+                                        </button>
+                                    </form>
+                                )}
+                            </Formik>
+                        </div>
+                    </div>
+                    {
+                        searchProduct &&
+                        <div className="row">
+                            {
+                                searchProduct.map((item) => (
+                                    <div className="col-lg-4" key={item._id}>
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <div class="card">
+                                                    <img src="https://st3.depositphotos.com/1441511/18503/i/600/depositphotos_185032830-stock-photo-programming-man-working-on-computer.jpg " class="card-img-top" alt="..." />
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{item.title}</h5>
+                                                        <p class="card-text">{item.excerptText}</p>
+                                                        <div className='btnWrap'>
+                                                            <span>  <Formik
+                                                                initialValues={{
+                                                                    quantity: ''
+                                                                }}
+                                                                validationSchema={
+                                                                    Yup.object({
+                                                                        quantity: Yup.number("Select any quantity").required("Required"),
                                                                     })
-                                                                    .catch(function (error) {
-                                                                        fireToast('error', error.response.data.Error)
-                                                                        navigate('/')
-                                                                    });
-                                                            }}
-                                                        >
-                                                            {({
-                                                                values,
-                                                                errors,
-                                                                touched,
-                                                                handleChange,
-                                                                handleBlur,
-                                                                handleSubmit,
-                                                                isSubmitting,
-                                                                /* and other goodies */
-                                                            }) => (
-                                                                <form onSubmit={handleSubmit}>
-                                                                    <div className='inputWrap'>
-                                                                        <input
-                                                                            className="form-control"
-                                                                            type="number"
-                                                                            name="quantity"
-                                                                            onChange={handleChange}
-                                                                            onBlur={handleBlur}
-                                                                            values={values.quantity}
-                                                                        />
-                                                                        <div className='errorMsg'>
-                                                                            {errors.quantity && touched.quantity && errors.quantity}
+                                                                }
+                                                                onSubmit={(values, { setSubmitting }) => {
+                                                                    axiosfun().post(addToCart, {
+                                                                        quantity: values.quantity,
+                                                                        productId: item._id
+                                                                    })
+                                                                        .then(function (response) {
+                                                                            fireToast('success', response.data.Result)
+                                                                            navigate('/cart')
+                                                                        })
+                                                                        .catch(function (error) {
+                                                                            fireToast('error', error.response.data.Error)
+                                                                            navigate('/')
+                                                                        });
+                                                                }}
+                                                            >
+                                                                {({
+                                                                    values,
+                                                                    errors,
+                                                                    touched,
+                                                                    handleChange,
+                                                                    handleBlur,
+                                                                    handleSubmit,
+                                                                    isSubmitting,
+                                                                    /* and other goodies */
+                                                                }) => (
+                                                                    <form onSubmit={handleSubmit}>
+                                                                        <div className='inputWrap'>
+                                                                            <input
+                                                                                className="form-control"
+                                                                                type="number"
+                                                                                name="quantity"
+                                                                                onChange={handleChange}
+                                                                                onBlur={handleBlur}
+                                                                                values={values.quantity}
+                                                                            />
+                                                                            <div className='errorMsg'>
+                                                                                {errors.quantity && touched.quantity && errors.quantity}
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <button type="submit" >
-                                                                        Cart
-                                                                    </button>
-                                                                </form>
-                                                            )}
-                                                        </Formik></span>
-                                                        <span><a href="#" class="btn btn-danger">${item.productPrice}</a></span>
+                                                                        <button type="submit" >
+                                                                            Cart
+                                                                        </button>
+                                                                    </form>
+                                                                )}
+                                                            </Formik></span>
+                                                            <span><a href="#" class="btn btn-danger">${item.productPrice}</a></span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))
-                        }
-                    </div>
+                                ))
+                            }
+                        </div>
+                    }
+                    {
+                        !searchProduct &&
+                        <div className="row">
+                            {
+                                product.map((item) => (
+                                    <div className="col-lg-4" key={item._id}>
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <div class="card">
+                                                    <img src="https://st3.depositphotos.com/1441511/18503/i/600/depositphotos_185032830-stock-photo-programming-man-working-on-computer.jpg " class="card-img-top" alt="..." />
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">{item.title}</h5>
+                                                        <p class="card-text">{item.excerptText}</p>
+                                                        <div className='btnWrap'>
+                                                            <span>  <Formik
+                                                                initialValues={{
+                                                                    quantity: ''
+                                                                }}
+                                                                validationSchema={
+                                                                    Yup.object({
+                                                                        quantity: Yup.number("Select any quantity").required("Required"),
+                                                                    })
+                                                                }
+                                                                onSubmit={(values, { setSubmitting }) => {
+                                                                    axiosfun().post(addToCart, {
+                                                                        quantity: values.quantity,
+                                                                        productId: item._id
+                                                                    })
+                                                                        .then(function (response) {
+                                                                            fireToast('success', response.data.Result)
+                                                                            navigate('/cart')
+                                                                        })
+                                                                        .catch(function (error) {
+                                                                            fireToast('error', error.response.data.Error)
+                                                                            navigate('/')
+                                                                        });
+                                                                }}
+                                                            >
+                                                                {({
+                                                                    values,
+                                                                    errors,
+                                                                    touched,
+                                                                    handleChange,
+                                                                    handleBlur,
+                                                                    handleSubmit,
+                                                                    isSubmitting,
+                                                                    /* and other goodies */
+                                                                }) => (
+                                                                    <form onSubmit={handleSubmit}>
+                                                                        <div className='inputWrap'>
+                                                                            <input
+                                                                                className="form-control"
+                                                                                type="number"
+                                                                                name="quantity"
+                                                                                onChange={handleChange}
+                                                                                onBlur={handleBlur}
+                                                                                values={values.quantity}
+                                                                            />
+                                                                            <div className='errorMsg'>
+                                                                                {errors.quantity && touched.quantity && errors.quantity}
+                                                                            </div>
+                                                                        </div>
+                                                                        <button type="submit" >
+                                                                            Cart
+                                                                        </button>
+                                                                    </form>
+                                                                )}
+                                                            </Formik></span>
+                                                            <span><a href="#" class="btn btn-danger">${item.productPrice}</a></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    }
+
                 </div>
             </section>
 

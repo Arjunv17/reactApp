@@ -52,7 +52,6 @@ const Checkout = () => {
                                         })
                                             .then(function (response) {
                                                 fireToast('success', response.data.Result)
-                                                localStorage.setItem('token', response.data.token)
                                                 navigate('/')
                                             })
                                             .catch(function (error) {
