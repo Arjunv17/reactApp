@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-export const baseUrl = process.env.REACT_APP_APIENDPOINT;
+// export const baseUrl =  'https://my-ecommerce-apis.herokuapp.com/';
+export const baseUrl = process.env.REACT_APP_APIENDPOINT ;
 
  const axiosfun = () => {
 
