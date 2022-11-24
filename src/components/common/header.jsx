@@ -65,9 +65,7 @@ const Navbar = () => {
                         <li class={`nav-item ${style.headerLink}`}>
                           <Link to="/checkout">Checkout</Link>
                         </li>
-                        <li class={`nav-item ${style.headerLink}`}>
-                          <Link to="/props">Props</Link>
-                        </li>
+                        
                       </>
                     ) : (
                       <>

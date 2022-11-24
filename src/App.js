@@ -10,7 +10,7 @@ import React from "react";
 import AuthRoutes from "./authRoutes";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
-import PropsFunction from "./pages/props";
+// import PropsFunction from "./pages/props";
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/props" element={< PropsFunction />} />
+          {/* <Route path="/props" element={< PropsFunction />} /> */}
         </Route>
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />

@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from "../../helper";
 import axiosfun from "../../config";
-import PropsFunction from "../props";
+import Button from "../props";
 
 const Index = () => {
   const [product, setProduct] = useState([]);
@@ -31,7 +31,6 @@ const Index = () => {
   useEffect(() => {
     getList();
   }, []);
-
 
   return (
     <>
@@ -96,7 +95,6 @@ const Index = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-                <PropsFunction testName = "red"/>
               <Formik
                 initialValues={{
                   title: "",
@@ -149,6 +147,13 @@ const Index = () => {
                   </form>
                 )}
               </Formik>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-lg-12">
+              <Button type="button" className="btn-primary">
+                Click
+              </Button>
             </div>
           </div>
 
@@ -228,7 +233,13 @@ const Index = () => {
                                         errors.quantity}
                                     </div>
                                   </div>
-                                  <button type="submit">Cart</button>
+                                  <Button
+                                    type="submit"
+                                    className="btn-info"
+                                    padding="5px 25px"
+                                  >
+                                    Cart
+                                  </Button>
                                 </form>
                               )}
                             </Formik>

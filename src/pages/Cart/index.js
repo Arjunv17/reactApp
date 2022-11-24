@@ -7,7 +7,7 @@ import { getCart, deleteCart } from '../../services';
 import { Link, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from '../../helper'
 import axiosfun from '../../config'
-
+import BasicModal from '../../components/common/modal.jsx'
 const Cart = () => {
 
     const [showCart, setShowCart] = useState([]);
@@ -36,6 +36,18 @@ const Cart = () => {
                 fireToast('error', 'This Item is not add in cart')
             });
     }
+
+    function addWorkLog(services)
+    {
+          return (
+            <BasicModal>
+                test
+            </BasicModal>
+          );
+    }
+
+
+
 
 
     useEffect(() => {
@@ -74,7 +86,9 @@ const Cart = () => {
                                                     <td>{item.productPrice}</td>
                                                     <td>{item.finalPrice}</td>
                                                     <td>{item.productQuantity}</td>
-                                                    <td><i class="fa-solid fa-pen-to-square"  ></i></td>
+                                                    <td onClick={() => addWorkLog('data') }>
+                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                    </td>
                                                     <td onClick={() => deleteCartItems(item._id)}><i class="fa-solid fa-trash"></i></td>
                                                 </tr>
                                             ))
