@@ -37,8 +37,6 @@ const BasicModal = ({
           <Formik
             initialValues={{
                 ...data
-            // userPhoneNumber: data.userPhoneNumber,
-            //   userName: data.userName,
             }} 
             validationSchema={Yup.object({
               userPhoneNumber: Yup.string().required("Required"),
@@ -50,10 +48,10 @@ const BasicModal = ({
                     userPhoneNumber: values.userPhoneNumber,
                     userName: values.userName,
                 })
-                .then(function (response) {
+                .then(async function (response) {
                   fireToast("success", response.data.Result);
                   setVisible(false)
-                  fetch()
+                  await fetch()
                 })
                 .catch(function (error) {
                   fireToast("error", error.response.data.Error);
@@ -92,6 +90,7 @@ const BasicModal = ({
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.userPhoneNumber}
+                    disabled
                   />
                   <div className={loginStyle.errorMsg}>
                     {errors.userPhoneNumber &&

@@ -32,6 +32,8 @@ const Index = () => {
     getList();
   }, []);
 
+
+
   return (
     <>
       <section className="banner">
@@ -85,6 +87,18 @@ const Index = () => {
                     <span class="sr-only">Next</span>
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="pImage">
+                  <img src="" alt="profileImage" />
               </div>
             </div>
           </div>

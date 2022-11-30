@@ -16,8 +16,8 @@ const Cart = () => {
     axiosfun()
       .get(getCart)
       .then(function (response) {
-        setShowCart(response.data);
-        fireToast("success", response.data.Result);
+        setShowCart(response.data.Data);
+       fireToast("success", response.data.Result);
       })
       .catch(function (error) {
         fireToast("error", "This Item is not add in cart");
