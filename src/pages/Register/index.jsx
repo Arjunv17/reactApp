@@ -3,7 +3,7 @@ import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import registerStyle from "./register.module.css";
 import axios from "axios";
-import { Registers } from "../../services";
+import { Registers, adminRegisters } from "../../services";
 import Swal from "sweetalert2";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { toastConfig, fireToast } from "../../helper";
@@ -26,60 +26,23 @@ const Register = () => {
   //     };
   //     console.log(url,"imagess array under fn blank down side")
 
-  const [image, setAboutImage] = useState({
-    blob: null,
-    src: "",
-  });
+  // const [image, setAboutImage] = useState({
+  //   blob: null,
+  //   src: "",
+  // });
 
-  const onImageChange = async (event) => {
-    event.preventDefault();
-    let imagesURL = [];
-    console.log(event.target.files, "e target >>>>>>> upload image side");
+  // const onImageChange = async (event) => {
+  //   event.preventDefault();
+  //   if (event.target.files && event.target.files) {
+  //     let files = event.target.files;
+  //     const ggf = window.URL.createObjectURL(
+  //       new Blob(files, { type: "image/jpeg" })
+  //     );
 
-    console.log(event.target.name, "e target name upload image side");
-    console.log(event.target.files, "e target files upload image side");
-    // let formData = new FormData(event.target);
-    // console.log(formData,"formData upload onImageChange fn side");
-    
-    if (event.target.files && event.target.files) {
-      let files = event.target.files;
-      // console.log(files, "files loop side ");
-      // imagesURL.push({ localImageUrl:  });
-      // const ff = URL.createObjectURL(files)
-
-      const ggf = window.URL.createObjectURL(new Blob(files, {type: "application/zip"}))
-      console.log(ggf,"gggg------g")
-
-      // console.log(URL.createObjectURL(files), "file url created");
-
-      // setLocalUploadImages(imagesURL)
-      setAboutImage(event.target.files);
-// 
-      // console.log(imagesURL, "imagess array under fn blank down side");
-    }
-  };
-
-  // const uploadRef2 = useRef(null)
-  // const handleAboutImageChange = (files) => {
-  //   const [file] = files;
-  //   if (file && file.type.includes("image")) {
-  //     // changeApiStatus(false, "");
-  //     setAboutImage({ blob: file, src: window.URL.createObjectURL(file) });
-  //   } else {
-  //     // changeApiStatus(false, "Please select a valid image file");
-  //     fireToast("error", "Please select a valid image file");
+  //     setAboutImage(ggf);
   //   }
   // };
-  // const handleAboutImageChange = (files) => {
-  //   console.log('testttttttttttt')
-  //   const [file] = files;
-  //   console.log(file,">>>>>>>>>>>")
-  //   if (file && file.type.includes("image")) {
-  //     setImage({ blob: file, src: window.URL.createObjectURL(file) });
-  //   } else {
-  //     fireToast("error", "Please select a valid image file");
-  //   }
-  // };
+
   return (
     <>
       <section className={registerStyle.bgImage}>
@@ -101,7 +64,7 @@ const Register = () => {
                     name: "",
                     email: "",
                     password: "",
-                    pic: "",
+                    pic: [],
                     phoneNumber: "",
                     gender: "",
                   }}
@@ -116,24 +79,23 @@ const Register = () => {
                       .max(25, "must be 5 char or less")
                       .required("Required"),
                     phoneNumber: Yup.number("invalid number"),
+                    pic: Yup.array().min(1, "select at least 1 file"),
                     gender: Yup.string()
                       .max(10, "Please select one gender first")
                       .required("Required"),
                   })}
                   onSubmit={(values, { setSubmitting }) => {
-
-                    console.log(image,"image----------------")
-                    const ft = {
-                      name: values.name,
-                      email: values.email,
-                      password: values.password,
-                      pic: image,
-                      phoneNumber: values.phoneNumber,
-                      gender: values.gender,
+                    let data = new FormData();
+                    for (const key of Object.keys(values)) {
+                      if (key != "pic") {
+                        data.append(key, values[key]);
+                      }
                     }
-                    const formdata = new FormData(ft)
+                    values.pic.forEach((photo, index) => {
+                      data.append(`pic`, values.pic[index]);
+                    });
                     axios
-                      .post(Registers, formdata)
+                      .post(adminRegisters, data)
                       .then(function (response) {
                         fireToast("success", response.data.Result);
                         navigate("/login");
@@ -151,6 +113,7 @@ const Register = () => {
                     handleBlur,
                     handleSubmit,
                     isSubmitting,
+                    setFieldValue,
                     /* and other goodies */
                   }) => (
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -203,9 +166,13 @@ const Register = () => {
                           className="form-control"
                           type="file"
                           name="pic"
-                          onChange={onImageChange}
+                          onChange={(event) => {
+                            const files = event.target.files;
+                            let myFiles = Array.from(files);
+                            setFieldValue("pic", myFiles);
+                          }}
                           onBlur={handleBlur}
-                          // values={values.pic}
+                          values={values.pic}
                         />
                         <div className={registerStyle.errorMsg}>
                           {errors.pic && touched.pic && errors.pic}

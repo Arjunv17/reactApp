@@ -2,6 +2,7 @@ const Images = {
     logoImage: require("./logo.png"),
     banner1: require("./1.jpg"),
     banner2: require("./2.jpg"),
+    loader: require("./loader.gif"),
     // centraBeach: require("./centara-mirage-beach-resort-dubai.jpeg"),
     // diversePerform: require("./diverse-performing-arts-center-show-at-dubai-opera.webp"),
     // digitalArt: require("./infinity-des-lumieres-immersive-digital-art-gallery.jpg"),
